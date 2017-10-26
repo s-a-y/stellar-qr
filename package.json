@@ -2,10 +2,13 @@
   "name": "stellar-qr",
   "version": "0.0.2",
   "description": "QR code generation rules for different stellar wallets",
+  "engines": {
+    "node" : ">=6.11"
+  },
   "keywords": [
     "stellar"
   ],
-  "main": "index.js",
+  "main": "main.js",
   "author": "umbrel",
   "license": "ISC",
   "dependencies": {
@@ -16,5 +19,9 @@
   },
   "devDependencies": {
     "ava": "^0.23.0"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/s-a-y/stellar-qr.git"
   }
 }
