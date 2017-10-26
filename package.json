@@ -1,0 +1,20 @@
+{
+  "name": "stellar-qr",
+  "version": "0.0.1",
+  "description": "QR code generation rules for different stellar wallets",
+  "keywords": [
+    "stellar"
+  ],
+  "main": "index.js",
+  "author": "umbrel",
+  "license": "ISC",
+  "dependencies": {
+    "stellar-sdk": "^0.7.3"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^0.23.0"
+  }
+}
