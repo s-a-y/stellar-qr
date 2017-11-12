@@ -12,13 +12,28 @@
   "author": "umbrel",
   "license": "ISC",
   "dependencies": {
-    "stellar-sdk": "^0.7.3"
+    "stellar-sdk": "0.7.3"
   },
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "build": "gulp",
+    "lint": "eslint . --ext .js"
   },
   "devDependencies": {
-    "ava": "^0.23.0"
+    "ava": "0.23.0",
+    "babel-core": "6.26.0",
+    "babel-preset-env": "1.6.1",
+    "babelify": "8.0.0",
+    "browserify": "14.5.0",
+    "eslint": "4.4.1",
+    "eslint-config-airbnb-base": "11.3.1",
+    "eslint-plugin-import": "2.7.0",
+    "gulp": "3.9.1",
+    "gulp-less": "3.3.2",
+    "gulp-rename": "1.2.2",
+    "gulp-sourcemaps": "2.6.1",
+    "vinyl-buffer": "1.0.0",
+    "vinyl-source-stream": "1.1.0"
   },
   "repository": {
     "type": "git",
