@@ -5,7 +5,7 @@ const wallets = [
   'Centaurus',
   'Papaya',
   'Stargazer',
-  'Stellarkey'
+  'Stellarkey',
 ];
 
 const getStellarQR = (params) => {
@@ -14,14 +14,14 @@ const getStellarQR = (params) => {
       return stellarkey.getQR(params);
     case 'papaya':
     case 'stargazer':
-      return stargazer.getQR(params);
+      return Promise.resolve(stargazer.getQR(params));
     default:
       // same for centaurus
-      return params.accountId;
+      return Promise.resolve(params.accountId);
   }
 };
 
 module.exports = {
   wallets,
-  getStellarQR
+  getStellarQR,
 };

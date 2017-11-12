@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Widget</title>
+  <link rel="stylesheet" href="./bundle/widget.css">
+</head>
+<body>
+
+<div class="container"></div>
+<script src="./bundle/widget.js"></script>
+<script>
+  const amount = '145690';
+  const currency = 'XLM';
+  const destinationAddress = 'GAN4Y5A2SVY4DOO6YCJAXVBT6XWJ25JQMCTD4OKUG63M3P52FXTBG6ID';
+  const memoType = 'id';
+  const memo = '22';
+  const sourceAddress = 'GCR3L4I5C2WE4C5BNHEFHLFSIYHGLZRDAUG3MOWL7R3CVVSI4XL47OTJ';
+  const container = document.querySelector('.container');
+  window.STELLAR_QR_WIDGET.init(container, sourceAddress, amount, currency, destinationAddress, memoType, memo);
+</script>
+</body>
+</html>
