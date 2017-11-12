@@ -1,4 +1,3 @@
-'use strict';
 const StellarSdk = require('stellar-sdk');
 
 const stellarMemo = (memoType, memo) => {
@@ -13,45 +12,51 @@ const stellarMemo = (memoType, memo) => {
 };
 
 module.exports = {
-  getQR: ({networkHash, networkPassphrase, accountId, sourceAccount, memoType, memo, amount, assetCode, assetIssuer}) => {
+  getQR: (
+    { networkHash, networkPassphrase, accountId, sourceAccount, memoType, memo, amount, assetCode, assetIssuer },
+  ) => {
     if (!accountId) {
-      throw new Error('accountId is required to prepare transaction envelope')
+      throw new Error('accountId is required to prepare transaction envelope');
     }
     if (!sourceAccount) {
-      throw new Error('sourceAccount is required to prepare transaction envelope')
+      throw new Error('sourceAccount is required to prepare transaction envelope');
     }
     if (!amount) {
-      throw new Error('amount is required to prepare transaction envelope')
+      throw new Error('amount is required to prepare transaction envelope');
     }
     if (assetCode && assetCode !== 'XLM' && !assetIssuer) {
-      throw new Error('assetIssuer is required for non-native assets')
+      throw new Error('assetIssuer is required for non-native assets');
     }
     if (!networkHash) {
       if (!networkPassphrase) {
+        // eslint-disable-next-line
         networkPassphrase = StellarSdk.Networks.PUBLIC;
       }
+      // eslint-disable-next-line
       networkHash = new StellarSdk.Network(networkPassphrase).networkId().toString('hex').slice(0, 8);
     }
     StellarSdk.Network.use(networkPassphrase);
-    let server = new StellarSdk.Server(process.env.HORIZON_URL || 'https://horizon.stellar.org');
+    const server = new StellarSdk.Server(process.env.HORIZON_URL || 'https://horizon.stellar.org');
     return server.loadAccount(sourceAccount)
-      .then(account => {
-        const options = (memo ? {memo: stellarMemo(memoType, memo)} : {});
+      .then((account) => {
+        const options = (memo ? { memo: stellarMemo(memoType, memo) } : {});
         const transaction = new StellarSdk.TransactionBuilder(account, options)
           .addOperation(StellarSdk.Operation.payment({
             destination: accountId,
-            asset: (assetCode? new StellarSdk.Asset(assetCode, assetIssuer) : StellarSdk.Asset.native()),
-            amount: amount,
+            asset: (assetCode ? new StellarSdk.Asset(assetCode, assetIssuer) : StellarSdk.Asset.native()),
+            amount,
           }))
-          .build().toEnvelope().toXDR('base64');
-
-        return 'stellar:' + networkHash + '?action=sign&xdr=' + transaction;
+          .build()
+          .toEnvelope()
+          .toXDR('base64');
+        return `stellar:'${networkHash}?action=sign&xdr=${transaction}`;
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.name === 'NotFoundError') {
           throw new Error('Account doesn\'t exist');
         }
+        // eslint-disable-next-line
         console.error(err);
       });
-  }
+  },
 };
