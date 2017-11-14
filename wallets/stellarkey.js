@@ -13,7 +13,7 @@ const stellarMemo = (memoType, memo) => {
 
 module.exports = {
   getQR: (
-    { networkHash, networkPassphrase, accountId, sourceAccount, memoType, memo, amount, assetCode, assetIssuer },
+    { networkHash, networkPassphrase, accountId, sourceAccount, memoType, memo, amount, assetCode, assetIssuer }
   ) => {
     if (!accountId) {
       throw new Error('accountId is required to prepare transaction envelope');

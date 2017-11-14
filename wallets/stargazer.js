@@ -8,7 +8,7 @@ const stargazerAccountQr = accountId => ({
   },
 });
 const stargazerPaymentQr = (
-  { networkHash, networkPassphrase, accountId, amount, memoType, memo, assetCode, assetIssuer },
+  { networkHash, networkPassphrase, accountId, amount, memoType, memo, assetCode, assetIssuer }
 ) => {
   if (!accountId) {
     throw new Error('accountId is required');

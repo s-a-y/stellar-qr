@@ -1,6 +1,6 @@
 {
   "name": "stellar-qr",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "QR code generation rules for different stellar wallets",
   "engines": {
     "node": ">=6.11"
