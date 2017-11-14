@@ -28,15 +28,14 @@ Currently returns:
 * Centaurus (QR code doesn't support memo, simply encodes public address)
 * Stargazer (QR code contains JSON structure with required fields)
 * Papaya (uses Stargazer format)
-* Stellarkey (Builds transaction envelope, which is ready to be signed, but requires `sourceAccount` parameter, so you must ask user for his address first)
+* StellarKey (Builds transaction envelope, which is ready to be signed, but requires `sourceAccount` parameter, so you must ask user for his address first)
 
 Then you offer user to choose wallet they are using
 and generate QR code for it:
 ```
 const StellarQr = require('stellar-qr');
-const qr = require('qr-image');
  
-const svgString = qr.imageSync(StellarQr.getStellarQr({
+const link = StellarQr.getStellarLink({
   wallet: 'stargazer',
   accountId: '',
   amount: '0.01',
@@ -44,9 +43,8 @@ const svgString = qr.imageSync(StellarQr.getStellarQr({
   assetIssuer: 'GAUTUYY2THLF7SGITDFMXJVYH3LHDSMGEAKSBU267M2K7A3W543CKUEF',
   memoType: 'text',
   memo: 'KAUOsC3bTU2+V2LwT18vDg=='	
-}), { 
-  type: 'svg' 
 });
+const svgString = StellarQr.getStellarQR(link);
 ```
 
 And use `svgString` to show QR on your payment page
@@ -62,3 +60,21 @@ Parameters:
 * assetCode - asset code, default is `XLM`
 * assetIssuer - asset issuer, required if assetCode != `XLM`
 * sourceAccount - sender account, required for Stellarkey to prepare transaction envelope
+
+You can also use it as frontend widget
+```$html
+<div id="stellar-qr"></div>
+<link rel="stylesheet" href="https://swap.apay.io/stellar-qr/bundle/widget.css">
+<script src="https://swap.apay.io/stellar-qr/bundle/widget.js"></script>
+<script>
+  window.STELLAR_QR_WIDGET.init({
+  	container: document.getElementById('stellar-qr'), 
+  	sourceAddress: userStellarAccount, // needed only for StellarKey 
+  	amount: 123, 
+  	currency: 'XLM', 
+  	destinationAddress: yourStellarAccount, 
+  	memoType: 'TEXT', 
+  	memo: 'orderNumber'
+  });
+</script>
+```
