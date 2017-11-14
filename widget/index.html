@@ -20,7 +20,7 @@
   const memo = '22';
   const sourceAddress = 'GCR3L4I5C2WE4C5BNHEFHLFSIYHGLZRDAUG3MOWL7R3CVVSI4XL47OTJ';
   const container = document.querySelector('.container');
-  window.STELLAR_QR_WIDGET.init(container, sourceAddress, amount, currency, destinationAddress, memoType, memo);
+  window.STELLAR_QR_WIDGET.init({container, sourceAddress, amount, currency, destinationAddress, memoType, memo});
 </script>
 </body>
 </html>

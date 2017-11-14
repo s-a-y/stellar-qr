@@ -17,6 +17,10 @@ class Config {
         text: 'HASH',
         value: 'hash',
       },
+      {
+        text: 'RETURN',
+        value: 'return',
+      },
     ];
 
     this.config.wallets = wallets.map(wallet => ({ text: wallet, value: wallet.toLowerCase() }));

@@ -1,5 +1,5 @@
 import config from './config';
-import { getStellarQR } from '../../../main';
+import { getStellarQR, getStellarLink } from '../../../main';
 import { buildElement, buildLabel, buildInput } from './dom';
 
 export default class Widget {
@@ -8,7 +8,7 @@ export default class Widget {
     this.groupControlClassName = 'sqw-input-group__control';
     this.groupInputClassName = 'sqw-input-group__input';
     this.groupLabelClassName = 'sqw-input-group__label';
-    this.groupMessageClassName = 'sqw-input-group__message';
+    this.groupMessageClassName = 'sqw-input-group__message _hidden';
     this.qrClassName = 'sqw-qr';
     this.widget = buildElement('div', { class: 'sqw' });
 
@@ -34,6 +34,7 @@ export default class Widget {
     this.walletGroup.append(this.walletGroupInput);
     this.widget.append(this.walletGroup);
 
+    this.walletGroupInput.value = 'stargazer';
     this.walletGroupInput.addEventListener('change', (event) => {
       this.handlerChangeWallet(event);
     });
@@ -44,22 +45,30 @@ export default class Widget {
     const value = config.get('destinationAddress');
     this.recipientGroup = buildElement('div', { class: this.groupClassName });
     this.recipientGroupLabel = buildLabel(label, { class: this.groupLabelClassName });
-    this.recipientGroupInput = buildInput({ class: this.groupInputClassName, value });
+    this.recipientGroupInput = buildInput({ class: this.groupInputClassName, value, readonly: true });
     this.recipientGroup.append(this.recipientGroupLabel);
     this.recipientGroup.append(this.recipientGroupInput);
     this.widget.append(this.recipientGroup);
+
+    this.recipientGroupInput.addEventListener('click', (event) => {
+      this.handlerClickSelect(event);
+    });
   }
 
   buildMemoGroup() {
-    const label = 'With memo (?)';
+    const label = 'With memo';
     this.memoGroup = buildElement('div', { class: this.groupClassName });
     this.memoGroupLabel = buildLabel(label, { class: this.groupLabelClassName });
     const memoGroupControl = buildElement('div', { class: this.groupControlClassName });
     this.memoGroupTypeInput = buildInput(
-      { class: `${this.groupInputClassName} _short`, value: config.get('memoType') },
+      { class: `${this.groupInputClassName} _short`, value: config.get('memoType'), disabled: !!config.get('memoType') },
       config.get('memoTypes'),
     );
-    this.memoGroupTextInput = buildInput({ class: `${this.groupInputClassName} _long`, value: config.get('memo') });
+    this.memoGroupTextInput = buildInput({
+      class: `${this.groupInputClassName} _long`,
+      value: config.get('memo'),
+      readonly: !!config.get('memo')
+    });
     memoGroupControl.append(this.memoGroupTypeInput);
     memoGroupControl.append(this.memoGroupTextInput);
     this.memoGroupAttention = buildElement('div', { class: this.groupMessageClassName });
@@ -69,6 +78,12 @@ export default class Widget {
     this.memoGroup.append(memoGroupControl);
     this.memoGroup.append(this.memoGroupAttention);
     this.widget.append(this.memoGroup);
+
+    if (config.get('memo')) {
+      this.memoGroupTextInput.addEventListener('click', (event) => {
+        this.handlerClickSelect(event);
+      });
+    }
   }
 
   buildQR() {
@@ -86,13 +101,17 @@ export default class Widget {
       this.hideMemoAttention();
     }
 
+    this.updateQrSvg();
+
     if (wallet === 'other') {
       this.hideQr();
     } else {
       this.showQr();
     }
+  }
 
-    this.updateQrSvg();
+  handlerClickSelect(event) {
+    event.target.select();
   }
 
   showMemoAttention() {
@@ -120,16 +139,18 @@ export default class Widget {
   }
 
   updateQrSvg() {
-    getStellarQR({
+    getStellarLink({
       wallet: this.walletGroupInput.value,
       accountId: config.get('destinationAddress'),
-      sourceAccount: config.get('sourceAddress'),
+      // sourceAccount: config.get('sourceAddress'),
       amount: config.get('amount'),
       memoType: config.get('memoType'),
       memo: config.get('memo'),
-    }).then((text) => {
-      this.qr.innerHTML =
-        `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURI(text)}&amp;size=100x100">`;
+    }).then(link => {
+      return getStellarQR(link);
+    })
+    .then((svg) => {
+      this.qr.innerHTML = svg;
     });
   }
 }

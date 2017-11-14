@@ -12,6 +12,7 @@
   "author": "umbrel",
   "license": "ISC",
   "dependencies": {
+    "qr-image": "^3.2.0",
     "stellar-sdk": "0.7.3"
   },
   "scripts": {

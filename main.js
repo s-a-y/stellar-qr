@@ -1,14 +1,16 @@
 const stargazer = require('./wallets/stargazer');
 const stellarkey = require('./wallets/stellarkey');
+const qr = require('qr-image');
 
 const wallets = [
   'Centaurus',
   'Papaya',
   'Stargazer',
-  'Stellarkey',
+  // 'StellarKey',
 ];
 
-const getStellarQR = (params) => {
+const getStellarLink = (params) => {
+  console.log(params);
   switch (params.wallet.toLowerCase()) {
     case 'stellarkey':
       return stellarkey.getQR(params);
@@ -21,7 +23,13 @@ const getStellarQR = (params) => {
   }
 };
 
+const getStellarQR = (link) => {
+  console.log(link);
+  return qr.imageSync(link, { type: 'svg' });
+};
+
 module.exports = {
   wallets,
+  getStellarLink,
   getStellarQR,
 };

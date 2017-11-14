@@ -49,7 +49,7 @@ module.exports = {
           .build()
           .toEnvelope()
           .toXDR('base64');
-        return `stellar:'${networkHash}?action=sign&xdr=${transaction}`;
+        return `stellar:${networkHash}?action=sign&xdr=${transaction}`;
       })
       .catch((err) => {
         if (err.name === 'NotFoundError') {
