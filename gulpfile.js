@@ -6,6 +6,7 @@ const browserify = require('browserify');
 const babel = require('babelify');
 const less = require('gulp-less');
 const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
 
 const sourceFile = 'index';
 const bundleName = 'widget';
@@ -34,6 +35,7 @@ gulp.task('build:scripts', () => {
     })
     .pipe(source(`${bundleName}.js`))
     .pipe(buffer())
+    .pipe(uglify().on('error',console.log))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.scripts.bundle));

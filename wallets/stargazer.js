@@ -30,7 +30,7 @@ const stargazerPaymentQr = (
     result.stellar.payment.network = networkHash ||
       new StellarSdk.Network(networkPassphrase).networkId().toString('hex').slice(0, 8);
   }
-  if (assetCode !== 'XLM') {
+  if (assetCode && assetCode !== 'XLM') {
     result.stellar.payment.asset = {
       code: assetCode,
       issuer: assetIssuer,

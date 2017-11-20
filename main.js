@@ -6,7 +6,7 @@ const wallets = [
   'Centaurus',
   'Papaya',
   'Stargazer',
-  // 'StellarKey',
+  'StellarKey',
 ];
 
 const getStellarLink = (params) => {

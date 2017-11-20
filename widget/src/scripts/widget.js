@@ -146,6 +146,7 @@ export default class Widget {
       amount: config.get('amount'),
       memoType: config.get('memoType'),
       memo: config.get('memo'),
+      currency: 'XLM'
     }).then(link => {
       return getStellarQR(link);
     })
