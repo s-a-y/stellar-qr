@@ -20,7 +20,7 @@ Then use it in your code
 ```
 const StellarQr = require('stellar-qr');
 
-const wallets = StellarQr.wallets(); 
+const wallets = StellarQr.wallets; 
 // returns list of wallets with support for QR codes
 ```
 
